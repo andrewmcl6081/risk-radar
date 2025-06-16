@@ -5,7 +5,7 @@ from typing import Optional
 class Settings(BaseSettings):
   # API Settings
   API_V1_STR: str = "/api/v1"
-  PROJECT_NAME: str = "Credit Sentinel"
+  PROJECT_NAME: str = "Risk Radar"
   
   HF_TOKEN: Optional[str] = None
   MODEL_CACHE_DIR: str = "./model_cache"

@@ -3,7 +3,7 @@ from typing import List, Dict, Optional
 import logging
 
 from app.schemas.responses import HealthCheckResponse
-from app.core.models import get_sentiment_model
+from backend.app.core.sentiment import get_sentiment_model
 from app.config import get_settings
 from datetime import datetime
 

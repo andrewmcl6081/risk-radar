@@ -7,8 +7,8 @@ from contextlib import asynccontextmanager
 import logging
 
 from app.config import get_settings
-from app.api import endpoints
-from app.core.models import get_sentiment_model
+from app.api.v1 import endpoints as v1_endpoints
+from backend.app.core.sentiment import get_sentiment_model
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -48,9 +48,9 @@ app.add_middleware(
 )
 
 app.include_router(
-  endpoints.router,
+  v1_endpoints.router,
   prefix=f"{settings.API_V1_STR}/sentiment",
-  tags=["sentiment-analysis"]
+  tags=["sentiment"]
 )
 
 @app.get("/")
