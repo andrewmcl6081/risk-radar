@@ -1,11 +1,10 @@
-from fastapi import APIRouter, HTTPException, BackgroundTasks
-from typing import List, Dict, Optional
+from fastapi import APIRouter, HTTPException
 import logging
+from datetime import datetime
 
 from app.schemas.responses import HealthCheckResponse
-from backend.app.core.sentiment import get_sentiment_model
 from app.config import get_settings
-from datetime import datetime
+from app.core.sentiment import get_sentiment_model
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -15,32 +14,32 @@ settings = get_settings()
 def health_check():
   try:
     model = get_sentiment_model()
-    model_status = model.get_status()
+    status = model.get_status()
+    name = status.get("model_name", "unknown")
     
-    if model_status["initialized"]:
-      return HealthCheckResponse(
-        status="healthy",
-        models_loaded=True,
-        name=model_status["model_name"]
-      )
-    else:
+    if not status.get("initialized", False):
+      logger.info("Sentiment model not initialized. Attempting to initialize...")
       try:
         model.initialize()
-        return HealthCheckResponse(
-          status="healthy",
-          models_loaded=True,
-          name=model_status["model_name"]
-        )
-      except Exception as init_error:
+        logger.info("Model initialized successfully during health check.")
+      except Exception as init_err:
+        logger.exception("Model failed to initialize.")
         return HealthCheckResponse(
           status="unhealthy",
           models_loaded=False,
-          name=model_status["model_name"],
-          error=str(init_error)
+          name=name,
+          error=str(init_err),
         )
+    
+    return HealthCheckResponse(
+      status="healthy",
+      models_loaded=True,
+      name=name,
+    )
   except Exception as e:
+    logger.exception("Unexpected error during health check.")
     return HealthCheckResponse(
       status="error",
       models_loaded=False,
-      error=str(e)
+      error=str(e),
     )
