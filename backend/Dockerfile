@@ -17,15 +17,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 TRANSFORMERS_CACHE=/app/model_c
 
 RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 libopenblas0 && rm -rf /var/lib/apt/lists/*
 
+COPY --from=builder /build/wheels /wheels
+
+RUN pip install --no-cache-dir /wheels/* && rm -rf /wheels
+
 RUN adduser --disabled-password --gecos "" --uid 1001 appuser
 
 USER appuser
 
 WORKDIR /app
-
-COPY --from=builder /build/wheels /wheels
-
-RUN pip install --no-cache-dir /wheels/* && rm -rf /wheels
 
 COPY --chown=appuser:appuser app ./app
 

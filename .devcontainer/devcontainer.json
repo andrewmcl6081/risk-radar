@@ -1,0 +1,28 @@
+{
+  "name": "Risk Radar Dev",
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "../docker-compose.dev.yml"
+  ],
+  "service": "api",
+  "workspaceFolder": "/app",
+  "forwardPorts": [8000],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/home/appuser/.local/bin/python",
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-azuretools.vscode-docker",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+  "remoteUser": " appuser",
+  "postCreateCommand": "pip install --user ipykernel && python -m ipykernel install --user --name risk-radar",
+  "mounts": [
+    "source=${localWorkspaceFolder}/backend/model_cache,target=/app/model_cache,type=bind,consistency=cached"
+  ]
+}
