@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: risk-radar:latest
+    container_name: risk-radar-api
+    env_file:
+      - .env
+    volumes:
+      - backend/model_cache:/app/model_cache
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
