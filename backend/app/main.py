@@ -1,4 +1,4 @@
-from app.logging_config import setup_logging
+from logging_config import setup_logging
 setup_logging()
 
 from fastapi import FastAPI
@@ -6,9 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
 
-from app.config import get_settings
-from app.api.v1 import endpoints as v1_endpoints
-from app.core.sentiment import get_sentiment_model
+from config import get_settings
+from api.v1 import endpoints as v1_endpoints
+from core.sentiment import get_sentiment_model
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
