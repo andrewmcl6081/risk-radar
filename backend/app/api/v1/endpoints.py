@@ -2,9 +2,9 @@ from fastapi import APIRouter, HTTPException
 import logging
 from datetime import datetime
 
-from app.schemas.responses import HealthCheckResponse
-from app.config import get_settings
-from app.core.sentiment import get_sentiment_model
+from schemas.responses import HealthCheckResponse
+from config import get_settings
+from core.sentiment import get_sentiment_model
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
