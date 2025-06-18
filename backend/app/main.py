@@ -9,15 +9,20 @@ import logging
 from config import get_settings
 from api.v1 import endpoints as v1_endpoints
 from core.sentiment import get_sentiment_model
+from db.connection import init_db
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-  logger.info("Starting Financial Sentiment API...")
+  logger.info("Starting Risk Radar API...")
   
   try:
+    # Initialize db
+    init_db()
+    logger.info("Database initialized")
+    
     # Pre-load sentiment model
     model = get_sentiment_model()
     model.initialize()
