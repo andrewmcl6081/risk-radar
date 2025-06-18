@@ -20,7 +20,7 @@
       ]
     }
   },
-  "remoteUser": " appuser",
+  "remoteUser": "appuser",
   "postCreateCommand": "pip install --user ipykernel && python -m ipykernel install --user --name risk-radar",
   "mounts": [
     "source=${localWorkspaceFolder}/backend/model_cache,target=/app/model_cache,type=bind,consistency=cached"
